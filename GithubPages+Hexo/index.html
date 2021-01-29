@@ -252,7 +252,7 @@
 <li>在GitHub上开启GitHub pages服务（其实就是创建一个仓库，仓库的名字必须是 username.github.io）<br>到这步可以测试一下：在浏览器输入 <code>https://username.github.io</code> 能否访问成功</li>
 </ol>
 <h2 id="2-准备Hexo"><a href="#2-准备Hexo" class="headerlink" title="2. 准备Hexo"></a>2. 准备Hexo</h2><ol>
-<li><p>安装<a target="_blank" rel="noopener" href="https://nodejs.org/en/">node.js</a><br>通过 <code>$ node --version</code> 测试是否安装成功。</p>
+<li><p>安装 <a target="_blank" rel="noopener" href="https://nodejs.org/en/">node.js</a><br>通过 <code>$ node --version</code> 测试是否安装成功。</p>
 </li>
 <li><p>通过<code>npm</code>安装 <code>Hexo</code>，终端输入命令：</p>
 <pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> npm install -g hexo-cli</span></code></pre>
@@ -416,9 +416,9 @@
 <h2 id="3-将静态文件部署到对应的仓库中"><a href="#3-将静态文件部署到对应的仓库中" class="headerlink" title="3. 将静态文件部署到对应的仓库中"></a>3. 将静态文件部署到对应的仓库中</h2><ol>
 <li><p>打开站点根目录中的 <code>_config.yml</code> 文件，找到deploy字段（在最下面），将其用以下内容替换：</p>
 <pre><code class="hljs yaml"><span class="hljs-attr">deploy:</span>
-  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span>
-  <span class="hljs-attr">repo:</span> <span class="hljs-string">git@github.com:username/username.github.io.git</span>
-  <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span></code></pre>
+<span class="hljs-attr">type:</span> <span class="hljs-string">git</span>
+<span class="hljs-attr">repo:</span> <span class="hljs-string">git@github.com:username/username.github.io.git</span>
+<span class="hljs-attr">branch:</span> <span class="hljs-string">master</span></code></pre>
 </li>
 <li><p>安装插件（注意要在站点根目录下执行该操作）：<code>$ npm install hexo-deployer-git --save</code></p>
 </li>
@@ -468,9 +468,9 @@ categories:
 <li><p>在站点根目录的配置文件_cpnfig.yml中添加：</p>
 <pre><code class="hljs yaml"><span class="hljs-comment"># sitemap</span>
 <span class="hljs-attr">sitemap:</span>
-  <span class="hljs-attr">path:</span> <span class="hljs-string">sitemap.xml</span>
+<span class="hljs-attr">path:</span> <span class="hljs-string">sitemap.xml</span>
 <span class="hljs-attr">baidusitemap:</span>
-  <span class="hljs-attr">path:</span> <span class="hljs-string">baidusitemap.xml</span></code></pre>
+<span class="hljs-attr">path:</span> <span class="hljs-string">baidusitemap.xml</span></code></pre>
 </li>
 <li><p>执行：<code>$ hexo g</code><br>public文件夹下多了 <strong>sitemap.xml</strong> 和 <strong>baidusitemap.xml</strong> 两个文件，这就是供搜索Google和百度引擎爬虫抓取的站点地图。</p>
 </li>
