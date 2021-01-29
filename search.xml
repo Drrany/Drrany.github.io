@@ -615,7 +615,7 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 </ol>
 <p>第一个问题可以通过将 pre 数组修改为<code>vector&lt;vecotr&lt;int&gt; &gt;pre</code>，然后对<code>pre</code>进行 DFS 得到每条路径。</p>
 <p>第二个问题，如果最优要求比较简单，可以直接在原有 Dijsktra 算法上修改，如果比较麻烦，可以先求出所有最短路径，再通过 DFS 对每条路径的属性进行比较，得到要求解。</p>
-<p>例：[PAT-1003.Emergency][<a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376]">https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376]</a></p>
+<p>例：<a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376">PAT-1003.Emergency</a></p>
 <ul>
 <li><p>思路：该题中不仅要求距离最短，还要求所有最短路径中，输出救援队人数最多的那条（也就是路径经过的所有城市点权相加）</p>
 <pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
