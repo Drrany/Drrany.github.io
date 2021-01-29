@@ -604,11 +604,13 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
     &#125;
 &#125;;
 </code></pre>
-<h3 id="Dijsktra-算法-DFS"><a href="#Dijsktra-算法-DFS" class="headerlink" title="Dijsktra 算法+DFS"></a>Dijsktra 算法+DFS</h3></li>
+
+
+</li>
 </ul>
 </li>
 </ol>
-<p>上面两道题都没有要求输出具体的最短路径，所以没有使用 pre 数组。有两种稍微复杂的情况如下：</p>
+<h3 id="Dijsktra-算法-DFS"><a href="#Dijsktra-算法-DFS" class="headerlink" title="Dijsktra 算法+DFS"></a>Dijsktra 算法+DFS</h3><p>上面两道题都没有要求输出具体的最短路径，所以没有使用 pre 数组。有两种稍微复杂的情况如下：</p>
 <ol>
 <li>源点到某个点的最短路径不止一条</li>
 <li>不光要求从源点到其他点的距离最短，还有其他最优要求（e.g. 每个点有一个属性值，要求总属性值最大/小）</li>
@@ -708,8 +710,7 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 <ul>
 <li>注意一下这里的 k，也就是枚举的中介点必须在最外层才能保证这个贪心的正确性。因为 Floyd 算法的本质是 DP，也就是说<code>dist[k][i][j]=min(dist[k-1][i][j],dist[k-1][i][k]+dist[k-1][k][j])</code>，如果 k 不在最外层就不能保证当计算到 k 时，所有 k-1 的值都是最优的。</li>
 </ul>
-<p><strong>例：</strong></p>
-<p><a href="https://leetcode-cn.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/">LeetCode-1334. 阈值距离内邻居最少的城市</a></p>
+<p><strong>例：</strong> <a href="https://leetcode-cn.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/">LeetCode-1334. 阈值距离内邻居最少的城市</a></p>
 <ul>
 <li><p>思想：用 Floyd 算法计算出每两个城市之间的最短距离，然后分别遍历每个城市，计算满足要求的邻居数量，返回邻居最少的城市。</p>
 <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
@@ -777,8 +778,9 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 <li>如果要记录最短路径，可以设置一个<code>set&lt;int&gt; pre</code>，因为每次遍历会反复访问重复的点，而 set 可以自行去重。</li>
 </ul>
 <p><strong>例：</strong></p>
-<p><a href="https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/">LeetCode-787. K 站中转内最便宜的航班</a></p>
-<pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<ol>
+<li><p><a href="https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/">LeetCode-787. K 站中转内最便宜的航班</a></p>
+ <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
     <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findCheapestPrice</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; &amp;flights, <span class="hljs-keyword">int</span> src, <span class="hljs-keyword">int</span> dst, <span class="hljs-keyword">int</span> K)</span> </span>&#123;
         <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dist</span><span class="hljs-params">(n, INT32_MAX)</span></span>;
@@ -797,12 +799,11 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 
         <span class="hljs-keyword">return</span> dist[dst] == INT32_MAX ? <span class="hljs-number">-1</span> : dist[dst];
     &#125;
-&#125;;</code></pre>
-<p><a href="https://leetcode-cn.com/problems/path-with-maximum-probability/">LeetCode-1514.概率最大的路径</a></p>
+&#125;;</code></pre></li>
+<li><p><a href="https://leetcode-cn.com/problems/path-with-maximum-probability/">LeetCode-1514.概率最大的路径</a></p>
 <ul>
-<li>思路：这题咋一看有点唬人，其实也满足贪心策略，因为他要找的是最大相乘边权路径，而每个边权大小 ∈[0,1]，随着路径上边数的增加，边权只会越来越小，所以用 Bellman-Ford 算法时，最先得到的最大路径一定是最优解。</li>
-</ul>
-<pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<li><p>思路：这题咋一看有点唬人，其实也满足贪心策略，因为他要找的是最大相乘边权路径，而每个边权大小 ∈[0,1]，随着路径上边数的增加，边权只会越来越小，所以用 Bellman-Ford 算法时，最先得到的最大路径一定是最优解。</p>
+  <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
     <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">maxProbability</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; &amp;edges, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &amp;succProb, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> <span class="hljs-built_in">end</span>)</span> </span>&#123;
         <span class="hljs-keyword">int</span> len = edges.<span class="hljs-built_in">size</span>();
@@ -832,12 +833,16 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 
 
 
+</li>
+</ul>
+</li>
+</ol>
 <h2 id="SPFA-算法"><a href="#SPFA-算法" class="headerlink" title="SPFA 算法"></a>SPFA 算法</h2><p>SPFA 算法是基于 Bellman-Ford 算法改进得到的。B-F 算法每次边遍历，要对所有边都进行一次操作，但其实哪些边需要进行操作是可以提前确定的：只有当某个顶点 u 的 dist[u]值改变时，从他出发的边(u,v)才需要进行操作，因为只有此时顶点 v 的值才可能改变。</p>
-<p>基本操作：使用队列来存储 dist 值改变的点。每次取队首的顶点，然后对该顶点的所有边进行操作，如果边的另一个顶点的 dist 值改变，则将该顶点加入到队列中（如果该顶点当前不在队列中）。这样一直到队列为空。</p>
+<p><strong>基本操作：</strong>使用队列来存储 dist 值改变的点。每次取队首的顶点，然后对该顶点的所有边进行操作，如果边的另一个顶点的 dist 值改变，则将该顶点加入到队列中（如果该顶点当前不在队列中）。这样一直到队列为空。</p>
 <ul>
 <li>如果图中存在从源点可达的负环，则可能存在顶点无限次入队，使得队列不可能为空，这时用一个数组来记录每个顶点的入队次数，当一个顶点入队次数超过 n-1 时，返回 false。</li>
 </ul>
-<p>伪代码：</p>
+<p><strong>伪代码：</strong></p>
 <pre><code class="hljs c++"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">bool</span>&gt; in;	<span class="hljs-comment">// 标记顶点是否在队列中</span>
 <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; count;	<span class="hljs-comment">// 记录顶点的入队次数</span>
 <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;
@@ -854,7 +859,8 @@ q.push(src);	<span class="hljs-comment">// 源点入队</span>
     			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 &#125;</code></pre>
 <p>例：</p>
-<p><a href="https://leetcode-cn.com/problems/shortest-path-with-alternating-colors/">LeetCode-1129.颜色交替的最短路径</a></p>
+<ol>
+<li><p><a href="https://leetcode-cn.com/problems/shortest-path-with-alternating-colors/">LeetCode-1129.颜色交替的最短路径</a></p>
 <ul>
 <li><p>思路：每个结点处添加颜色信息，以实现交替查找不同颜色的边。由于每个点可能多次访问，但是边不能重复访问，所以设置一个边访问表来记录边的访问情况。只要当前边没有访问过，就可以新建结点入队，这样保证了能得到所有解。</p>
 <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> &#123;</span>
@@ -926,11 +932,11 @@ q.push(src);	<span class="hljs-comment">// 源点入队</span>
 
         <span class="hljs-keyword">return</span> ans;
     &#125;
-&#125;;</code></pre>
-<p><a href="https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/">LeetCode-787. K 站中转内最便宜的航班</a></p>
-</li>
+&#125;;</code></pre></li>
 </ul>
-<pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Edge</span> &#123;</span>
+</li>
+<li><p><a href="https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/">LeetCode-787. K 站中转内最便宜的航班</a></p>
+ <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Edge</span> &#123;</span>
     <span class="hljs-keyword">int</span> v;
     <span class="hljs-keyword">int</span> w;
     Edge(<span class="hljs-keyword">int</span> iv, <span class="hljs-keyword">int</span> iw) &#123;
@@ -978,7 +984,9 @@ q.push(src);	<span class="hljs-comment">// 源点入队</span>
         <span class="hljs-keyword">return</span> res[dst] == INT32_MAX ? <span class="hljs-number">-1</span> : res[dst];
 
     &#125;
-&#125;;</code></pre>]]></content>
+&#125;;</code></pre></li>
+</ol>
+]]></content>
       <categories>
         <category>算法</category>
         <category>总结</category>
