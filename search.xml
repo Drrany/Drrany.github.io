@@ -1,6 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Windows Terminal美化（配置Powershell7+PSReadLine+oh-my-posh）</title>
+    <url>/wt/</url>
+    <content><![CDATA[<blockquote>
+<p>好看是第一生产力。    — 鲁迅</p>
+</blockquote>
+<a id="more"></a>
+
+<blockquote>
+<p>最终效果如封面。</p>
+</blockquote>
+<h1 id="Windows-Terminal基础配置"><a href="#Windows-Terminal基础配置" class="headerlink" title="Windows Terminal基础配置"></a>Windows Terminal基础配置</h1><h2 id="Scoop安装"><a href="#Scoop安装" class="headerlink" title="Scoop安装"></a>Scoop安装</h2><p>Scoop是一款Windows下的包管理器，不是必须安装的，但是之后的部分配置我是用Scoop下载的。<br>Scoop的安装：</p>
+<pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">set</span>-executionpolicy remotesigned -scope currentuser</span>
+<span class="hljs-meta">$</span><span class="bash"> iex (new-object net.webclient).downloadstring(<span class="hljs-string">&#x27;https://get.scoop.sh&#x27;</span>)</span>
+<span class="hljs-meta">#</span><span class="bash"> 测试是否安装成功：</span>
+scoop help</code></pre>
+<h3 id="Scoop快速入门"><a href="#Scoop快速入门" class="headerlink" title="Scoop快速入门"></a>Scoop快速入门</h3><p>以安装Python为例：</p>
+<ol>
+<li>搜索软件包（会在你现在安装的仓库里搜索）：<code>scoop search python</code></li>
+<li>安装：<code>scoop install python</code> （可以先使用<code>scoop info python</code>查看当前软件的详细信息看是不是你需要的）</li>
+<li>提示安装成功后，可以通过 <code>scoop list</code> 查看当前安装的软件</li>
+<li>卸载：<code>scoop uninstall python</code></li>
+<li>更新：<code>scoop update python</code>（可以先通过<code>scoop status</code>查看当前是否有可更新的软件）。也可以使用命令 <code>scoop update *</code> 直接更新所有软件包括scoop自身。</li>
+<li>清理历史版本软件包与缓存：<code>scoop cleanup *</code>。scoop更新软件后不会自动卸载旧版本的软件包，需要手动cleanup来清理。</li>
+</ol>
+<p>Scoop安装的软件存放路径：<code>C:\Users\用户名\scoop</code></p>
+<h3 id="添加仓库"><a href="#添加仓库" class="headerlink" title="添加仓库"></a>添加仓库</h3><p>Scoop自带的官方仓库main的软件比较少，不太能满足我们的需求，但是它有一个bucket软件源策略，而且有社区来维护，常用软件基本能够找到。</p>
+<p>bucket官方维护源包括：（输入命令<code> scoop bucket known</code> 可以查看）</p>
+<pre><code class="hljs shell">scoop bucket add main # 默认
+scoop bucket add extras # 推荐
+scoop bucket add versions # 收录软件包的历史版本
+scoop bucket add nightlies
+scoop bucket add nirsoft
+scoop bucket add php
+scoop bucket add nerd-fonts # 编程字体
+scoop bucket add nonportable
+scoop bucket add java
+scoop bucket add games
+scoop bucket add jetbrains # 推荐</code></pre>
+<p>也可以添加第三方的，语法格式为：<code>scoop bucket add [仓库名] [仓库地址]</code></p>
+<p>例如添加一个包括一些国内常用应用（微信、QQ、网易云音乐）的第三方库：<br><code>scoop bucket add dorado https://github.com/chawyehsu/dorado</code></p>
+<p>移除仓库：<code>scoop rm php</code></p>
+<h3 id="Scoop命令不完全指北"><a href="#Scoop命令不完全指北" class="headerlink" title="Scoop命令不完全指北"></a>Scoop命令不完全指北</h3><p><code>scoop help</code> 获取命令帮助列表<br><code>scoop install 软件名</code> 安装<br><code>scoop install 软件名@3.7.6</code> 安装指定版本<br><code>scoop install extras/sumatrapdf</code> 安装指定仓库内版本<br><code>scoop update 软件名</code> 更新<br><code>scoop update *</code> 更新Scoop、所有安装的软件<br><code>scoop cleanup *</code> 清理历史版本软件包与缓存<br><code>scoop uninstall 软件名</code> 卸载<br><code>scoop reset 软件名</code> 版本切换<br><code>scoop depends 软件名</code> 查看软件的依赖<br><code>scoop hold 软件名</code>  禁止软件更新<br><code>scoop unhold 软件名</code>  启动软件更新<br><code>scoop home 软件名</code>  打开软件主页<br><code>scoop info 软件名</code>  显示软件信息<br><code>scoop list</code>   列出所有已安装软件<br><code>scoop prefix 软件名</code>  查看软件路径<br><code>scoop reset 软件名</code>  恢复软件版本<br><code>scoop search 软件名</code>  搜索软件<br><code>scoop status 软件名</code>  查看软件更新状态</p>
+<h3 id="gsudo安装"><a href="#gsudo安装" class="headerlink" title="gsudo安装"></a>gsudo安装</h3><p>gsudo解决了管理员权限问题，不需要再单独打开管理员权限的Powershell窗口。<br>安装：<code>scoop install gsudo</code><br>使用：在需要使用的命令前添加 <code>gsudo</code> 即可。（或者只输入命令<code>gsudo</code>，则直接进入管理员模式）</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>Windows Terminal下载：</p>
+<ul>
+<li>方式一：<a href="">Windows Terminal下载</a> </li>
+<li>方式二：直接在 Microsoft Store 搜索下载</li>
+<li>方式三：使用 Scoop 安装（通过 <a href="https://github.com/h404bi">@h404bi</a> 维护的第三方 bucket）<pre><code class="hljs shell">scoop bucket add dorado https://github.com/h404bi/dorado
+scoop install windowsterminal</code></pre>
+<br>
+
+</li>
+</ul>
+<p><a href="https://github.com/PowerShell/PowerShell/releases">PowerShell 7下载</a></p>
+<h2 id="WT配置自定义"><a href="#WT配置自定义" class="headerlink" title="WT配置自定义"></a>WT配置自定义</h2><p>打开配置文件：</p>
+<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819141247.png" width=60%></div>
+
+<h3 id="自定义全局属性"><a href="#自定义全局属性" class="headerlink" title="自定义全局属性"></a>自定义全局属性</h3><p>位于配置文件最开始的位置，可修改的全部属性参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/global-settings">全局设置</a><br>我修改的配置：</p>
+<ul>
+<li>Terminal 亮暗主题：<code>&quot;theme&quot;: &quot;dark&quot;</code></li>
+</ul>
+<h3 id="自定义环境入口-添加新Shell"><a href="#自定义环境入口-添加新Shell" class="headerlink" title="自定义环境入口(添加新Shell)"></a>自定义环境入口(添加新Shell)</h3><p>Windows Terminal 下拉菜单中可选择的环境是能自由配置的，其中每个环境有可以单独设置字体，初始目录，配色方案，背景等等。</p>
+<p>环境的配置位于<code>profiles[]</code>中：</p>
+<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819144453.png" width=100%></div>
+
+<p>一个典型的环境配置包括（以我配置的PowerShell7为例）：</p>
+<pre><code class="hljs json">&#123;
+    <span class="hljs-comment">// 下拉菜单中显示的名字</span>
+    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;PowerShell7&quot;</span>,
+
+    <span class="hljs-comment">// 下拉菜单中显示的icon</span>
+    <span class="hljs-comment">// 路径的语法格式可以用： </span>
+    <span class="hljs-comment">//      1. ms-appdata:///roaming/&#123;图片路径&#125;</span>
+    <span class="hljs-comment">//      2. 直接填图片路径 </span>
+    <span class="hljs-attr">&quot;icon&quot;</span>: <span class="hljs-string">&quot;ms-appdata:///roaming/E:\\保存图片\\icon\\cloudshell.png&quot;</span>, 
+
+    <span class="hljs-comment">// 标识符，直接在PowerShell中输入命令 new-guid 就可以得到一个新的GUID</span>
+    <span class="hljs-comment">// 如果guid设置为和全局属性的&quot;defaultProfile&quot;一样的话，打开 WT 就会默认为这个环</span>
+    <span class="hljs-attr">&quot;guid&quot;</span>: <span class="hljs-string">&quot;&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;&quot;</span>, 
+    
+    <span class="hljs-comment">// 唤起环境时执行这一命令，我这里加了个参数不输出启动日志信息</span>
+    <span class="hljs-attr">&quot;commandline&quot;</span>: <span class="hljs-string">&quot;path\\pwsh.exe -nologo&quot;</span>, 
+
+    <span class="hljs-comment">// 唤起环境时所处的起始目录</span>
+    <span class="hljs-attr">&quot;startingDirectory&quot;</span>: <span class="hljs-string">&quot;path\\...&quot;</span>, 
+
+    <span class="hljs-attr">&quot;cursorColor&quot;</span>: <span class="hljs-string">&quot;#fa9395&quot;</span>, <span class="hljs-comment">// 光标的颜色</span>
+    <span class="hljs-attr">&quot;cursorShape&quot;</span>: <span class="hljs-string">&quot;vintage&quot;</span>, <span class="hljs-comment">// 光标的形状。包括：bar、empytBox、filledBox、vintage</span>
+    <span class="hljs-attr">&quot;colorScheme&quot;</span>: <span class="hljs-string">&quot;Chalkboard&quot;</span>, <span class="hljs-comment">// 配色方案，除了几个默认的还可以在下面的&quot;schemes&quot;: []中定义</span>
+    <span class="hljs-attr">&quot;background&quot;</span>: <span class="hljs-string">&quot;#2a2a2a&quot;</span>, <span class="hljs-comment">// 背景色</span>
+    <span class="hljs-attr">&quot;useAcrylic&quot;</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否开启毛玻璃特效</span>
+    <span class="hljs-attr">&quot;acrylicOpacity&quot;</span>: <span class="hljs-number">0.3</span>, <span class="hljs-comment">// 毛玻璃特效的不透明度</span>
+    <span class="hljs-attr">&quot;backgroundImage&quot;</span>: <span class="hljs-string">&quot;path\\IMG_111.jpg&quot;</span>, <span class="hljs-comment">// 背景图片</span>
+    <span class="hljs-attr">&quot;backgroundImageOpacity&quot;</span>: <span class="hljs-number">0.5</span> <span class="hljs-comment">// 背景图片的不透明度</span>
+&#125;</code></pre>
+<p>更多详细配置参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/profile-settings">配置文件设置</a></p>
+<h3 id="添加自定义配色方案"><a href="#添加自定义配色方案" class="headerlink" title="添加自定义配色方案"></a>添加自定义配色方案</h3><p>一个可以预览Windows Terminal主题并一键复制json文件的网站：<a href="https://atomcorp.github.io/themes/">Windows Terminal Themes</a></p>
+<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819150228.png" width=100%></div>
+
+
+<p>点击下面的<code>Get theme</code>即将json文件复制到剪切板。e.g.</p>
+<pre><code class="hljs json">&#123;
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Andromeda&quot;</span>,
+  <span class="hljs-attr">&quot;black&quot;</span>: <span class="hljs-string">&quot;#000000&quot;</span>,
+  <span class="hljs-attr">&quot;red&quot;</span>: <span class="hljs-string">&quot;#cd3131&quot;</span>,
+  <span class="hljs-attr">&quot;green&quot;</span>: <span class="hljs-string">&quot;#05bc79&quot;</span>,
+  <span class="hljs-attr">&quot;yellow&quot;</span>: <span class="hljs-string">&quot;#e5e512&quot;</span>,
+  <span class="hljs-attr">&quot;blue&quot;</span>: <span class="hljs-string">&quot;#2472c8&quot;</span>,
+  <span class="hljs-attr">&quot;purple&quot;</span>: <span class="hljs-string">&quot;#bc3fbc&quot;</span>,
+  <span class="hljs-attr">&quot;cyan&quot;</span>: <span class="hljs-string">&quot;#0fa8cd&quot;</span>,
+  <span class="hljs-attr">&quot;white&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>,
+  <span class="hljs-attr">&quot;brightBlack&quot;</span>: <span class="hljs-string">&quot;#666666&quot;</span>,  <span class="hljs-comment">//命令行参数</span>
+  <span class="hljs-attr">&quot;brightRed&quot;</span>: <span class="hljs-string">&quot;#cd3131&quot;</span>,  <span class="hljs-comment">//错误信息</span>
+  <span class="hljs-attr">&quot;brightGreen&quot;</span>: <span class="hljs-string">&quot;#05bc79&quot;</span>,
+  <span class="hljs-attr">&quot;brightYellow&quot;</span>: <span class="hljs-string">&quot;#e5e512&quot;</span>,  <span class="hljs-comment">//命令</span>
+  <span class="hljs-attr">&quot;brightBlue&quot;</span>: <span class="hljs-string">&quot;#2472c8&quot;</span>,
+  <span class="hljs-attr">&quot;brightPurple&quot;</span>: <span class="hljs-string">&quot;#bc3fbc&quot;</span>,
+  <span class="hljs-attr">&quot;brightCyan&quot;</span>: <span class="hljs-string">&quot;#0fa8cd&quot;</span>,
+  <span class="hljs-attr">&quot;brightWhite&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>,
+  <span class="hljs-attr">&quot;background&quot;</span>: <span class="hljs-string">&quot;#262a33&quot;</span>,
+  <span class="hljs-attr">&quot;foreground&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>
+&#125;</code></pre>
+<p>我标识了几个颜色代表的参数，都不喜欢也可以自己DIY。</p>
+<h3 id="自定义快捷键"><a href="#自定义快捷键" class="headerlink" title="自定义快捷键"></a>自定义快捷键</h3><p>在<code>&quot;keybindings&quot;: []</code>进行设置。默认的包括：</p>
+<ul>
+<li><code>Ctrl</code> + <code>Shift</code> + <code>F</code>：全局查找</li>
+<li><code>Ctrl</code> + <code>Shift</code> + <code>T</code>：打开新标签页</li>
+<li><code>Ctrl</code> + <code>Shift</code> + <code>1/2/3...</code>：进入配置文件中定义的第一/二/三/…个环境</li>
+<li><code>Ctrl</code> + <code>Tab</code>：前一个标签页</li>
+<li><code>Ctrl</code> + <code>Shift</code> + <code>Tab</code>：后一个标签页</li>
+<li><code>Alt</code> + <code>Shift</code> + <code>-</code>：横向分屏</li>
+<li><code>Alt</code> + <code>Shift</code> + <code>+</code>：纵向分屏</li>
+<li><code>Ctrl</code> + <code>+</code>：放大</li>
+<li><code>Ctrl</code> + <code>-</code>：缩小</li>
+<li><code>Ctrl</code> + <code>0</code>：恢复默认缩放比例</li>
+</ul>
+<p>更多详细配置参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/key-bindings">自定义键绑定</a></p>
+<h1 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h1><h2 id="oh-my-posh安装和配置"><a href="#oh-my-posh安装和配置" class="headerlink" title="oh-my-posh安装和配置"></a>oh-my-posh安装和配置</h2><p>打开管理员权限的Powershell窗口（安装了gsudo的可以在命令前面直接加上<code>gsudo</code>）：</p>
+<pre><code class="hljs shell">Install-Module posh-git # 如果你的电脑里没有安装Git，输入这行会报错，解决方法是安装Git或者把这一行去掉。
+Install-Module oh-my-posh
+Set-Theme Agnoster # 这个是设置主题，你也可以选其他的，通过命令Get-Theme命令来查看其他主题</code></pre>
+<p>上面的导入只对当前窗口有效，所以需要将其添加到配置文件中：</p>
+<pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-keyword">if</span> (!(Test-Path -Path <span class="hljs-variable">$PROFILE</span> )) &#123; New-Item -Type File -Path <span class="hljs-variable">$PROFILE</span> -Force &#125; notepad <span class="hljs-variable">$PROFILE</span></span>
+<span class="hljs-meta">#</span><span class="bash"> 该命令打开默认 PowerShell 的启动配置文件（如果没有就创建），notepad表示用记事本打开，如果你安装了vscode，也可以替换成 code</span>
+<span class="hljs-meta">#</span><span class="bash"> 已经存在启动配置文件的话可以直接用命令 notepad/code <span class="hljs-variable">$PROFILE</span> 打开</span></code></pre>
+<p>然后把前面三行内容复制到 Microsoft.PowerShell_profile.ps1 文件中。<br>重新打开窗口或者输入命令<code>.$Profile</code>让配置文件生效。</p>
+<blockquote>
+<p>oh-my-posh只支持部分字体，可以使用我目前用的这款：<a href="https://github.com/tonsky/FiraCode/releases">Fira Code</a></p>
+</blockquote>
+<h3 id="隐藏主机名"><a href="#隐藏主机名" class="headerlink" title="隐藏主机名"></a>隐藏主机名</h3><blockquote>
+<p>个人觉得命令行前面显示的一长串太难看了。</p>
+</blockquote>
+<ol>
+<li><p>找到oh-my-posh的主题文件夹。</p>
+<ul>
+<li>如果你安装有everything可以直接搜索Agnoster或者任意主题名字试试。</li>
+<li>没有的话应该在这个路径下：<code>C:\Users\你的用户名\Documents\PowerShell\Modules\oh-my-posh\2.0.465\Themes</code></li>
+</ul>
+</li>
+<li><p>打开对应主题的.psm1文件，比如我使用的 Agnoster.psm1，搜索 <code>$user@$computer</code> 定位到如下内容，直接将整个 if语句 注释掉。</p>
+ <div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819195157.png" width=100%></div>
+
+</li>
+</ol>
+<h2 id="PSReadLine安装和配置"><a href="#PSReadLine安装和配置" class="headerlink" title="PSReadLine安装和配置"></a>PSReadLine安装和配置</h2><blockquote>
+<p>PSReadLine 是一个由微软发布的用于 PowerShell 的行读取实现，提供了以下功能：</p>
+<ul>
+<li>语法着色</li>
+<li>简单语法错误通知</li>
+<li>良好的多行体验</li>
+<li>可自定义的键绑定</li>
+<li>Cmd和Emacs模式</li>
+<li>许多配置选项</li>
+<li>Bash 样式的补全</li>
+<li>Bash/zsh 样式的交互式历史记录搜索</li>
+<li>Emacs yank/kill ring</li>
+<li>基于 PowerShell Token 的单词移动和删除</li>
+<li>撤销/重做</li>
+<li>自动保存历史记录，包括在实时会话中共享历史记录</li>
+<li>菜单补全、Intellisense</li>
+</ul>
+</blockquote>
+<p><strong>安装</strong>：<code>$ Install-Module -Name PSReadLine -AllowPrerelease -Force</code><br><strong>打开配置文件</strong>：<code>code $PROFILE</code><br>在里面添加以下内容：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">Set</span>-PSReadLineOption -PredictionSource History <span class="hljs-comment"># 设置预测文本来源为历史记录</span>
+ 
+<span class="hljs-keyword">Set</span>-PSReadlineKeyHandler -<span class="hljs-keyword">Key</span> Tab -<span class="hljs-keyword">Function</span> <span class="hljs-keyword">Complete</span> <span class="hljs-comment"># 设置 Tab 键补全</span>
+<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> <span class="hljs-string">&quot;Ctrl+d&quot;</span> -<span class="hljs-keyword">Function</span> MenuComplete <span class="hljs-comment"># 设置 Ctrl+d 为菜单补全和 Intellisense</span>
+<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> <span class="hljs-string">&quot;Ctrl+z&quot;</span> -<span class="hljs-keyword">Function</span> <span class="hljs-keyword">Undo</span> <span class="hljs-comment"># 设置 Ctrl+z 为撤销</span>
+<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> UpArrow -<span class="hljs-keyword">Function</span> HistorySearchBackward <span class="hljs-comment"># 设置向上键为后向搜索历史记录</span>
+<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> DownArrow -<span class="hljs-keyword">Function</span> HistorySearchForward <span class="hljs-comment"># 设置向下键为前向搜索历史纪录</span></code></pre>
+<p><a href="https://github.com/PowerShell/PSReadLine">PSReadLine更多配置参考</a></p>
+<h2 id="别名配置"><a href="#别名配置" class="headerlink" title="别名配置"></a>别名配置</h2><p>经常使用Git，所以想设置一些简短点的别名。<br>powershell的别名不支持语句，只能用命令所以这里还是搞了蛮久的。<br>需要用函数来帮忙，举个🌰 ：假如我想设置<code>git commit -m</code> -&gt; <code>cm</code>。因为后面肯定是有个字符串参数的，所以在配置文件里要这么写：</p>
+<pre><code class="hljs ps1"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCommit</span><span class="hljs-params">()</span></span> &#123;
+      git commit <span class="hljs-literal">-m</span> <span class="hljs-variable">$args</span>
+&#125;
+<span class="hljs-built_in">Set-Alias</span> cm getCommit</code></pre>
+<p>另外这个函数名<code>getCommit</code>是不能随便起的，有一定的规范，按我这种写应该是没问题的。<br>如果是不带参数的命令，就可以去掉<code>$args</code>。<br><a href="https://www.pstips.net/powershell-alias.html">Powershell 别名详细参考</a></p>
+<br>
+<br>
+
+<hr>
+<p>参考网址：<br><a href="https://sspai.com/post/59380">https://sspai.com/post/59380</a><br><a href="https://docs.microsoft.com/zh-cn/windows/terminal/">https://docs.microsoft.com/zh-cn/windows/terminal/</a><br><a href="https://segmentfault.com/a/1190000023337501">https://segmentfault.com/a/1190000023337501</a><br><a href="https://zhuanlan.zhihu.com/p/137251716">https://zhuanlan.zhihu.com/p/137251716</a><br><a href="https://printempw.github.io/windows-terminal-setup-guide/#3-2-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE">https://printempw.github.io/windows-terminal-setup-guide/#3-2-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE</a></p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GithubPages+Hexo搭建个人博客记录</title>
     <url>/GithubPages+Hexo/</url>
     <content><![CDATA[<p>记录一下简单流程和出现的问题。</p>
@@ -275,220 +487,8 @@ categories:
         <category>配置</category>
       </categories>
       <tags>
+        <tag>记录</tag>
         <tag>Hexo</tag>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows Terminal美化（配置Powershell7+PSReadLine+oh-my-posh）</title>
-    <url>/wt/</url>
-    <content><![CDATA[<blockquote>
-<p>好看是第一生产力。    — 鲁迅</p>
-</blockquote>
-<a id="more"></a>
-
-<blockquote>
-<p>最终效果如封面。</p>
-</blockquote>
-<h1 id="Windows-Terminal基础配置"><a href="#Windows-Terminal基础配置" class="headerlink" title="Windows Terminal基础配置"></a>Windows Terminal基础配置</h1><h2 id="Scoop安装"><a href="#Scoop安装" class="headerlink" title="Scoop安装"></a>Scoop安装</h2><p>Scoop是一款Windows下的包管理器，不是必须安装的，但是之后的部分配置我是用Scoop下载的。<br>Scoop的安装：</p>
-<pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">set</span>-executionpolicy remotesigned -scope currentuser</span>
-<span class="hljs-meta">$</span><span class="bash"> iex (new-object net.webclient).downloadstring(<span class="hljs-string">&#x27;https://get.scoop.sh&#x27;</span>)</span>
-<span class="hljs-meta">#</span><span class="bash"> 测试是否安装成功：</span>
-scoop help</code></pre>
-<h3 id="Scoop快速入门"><a href="#Scoop快速入门" class="headerlink" title="Scoop快速入门"></a>Scoop快速入门</h3><p>以安装Python为例：</p>
-<ol>
-<li>搜索软件包（会在你现在安装的仓库里搜索）：<code>scoop search python</code></li>
-<li>安装：<code>scoop install python</code> （可以先使用<code>scoop info python</code>查看当前软件的详细信息看是不是你需要的）</li>
-<li>提示安装成功后，可以通过 <code>scoop list</code> 查看当前安装的软件</li>
-<li>卸载：<code>scoop uninstall python</code></li>
-<li>更新：<code>scoop update python</code>（可以先通过<code>scoop status</code>查看当前是否有可更新的软件）。也可以使用命令 <code>scoop update *</code> 直接更新所有软件包括scoop自身。</li>
-<li>清理历史版本软件包与缓存：<code>scoop cleanup *</code>。scoop更新软件后不会自动卸载旧版本的软件包，需要手动cleanup来清理。</li>
-</ol>
-<p>Scoop安装的软件存放路径：<code>C:\Users\用户名\scoop</code></p>
-<h3 id="添加仓库"><a href="#添加仓库" class="headerlink" title="添加仓库"></a>添加仓库</h3><p>Scoop自带的官方仓库main的软件比较少，不太能满足我们的需求，但是它有一个bucket软件源策略，而且有社区来维护，常用软件基本能够找到。</p>
-<p>bucket官方维护源包括：（输入命令<code> scoop bucket known</code> 可以查看）</p>
-<pre><code class="hljs shell">scoop bucket add main # 默认
-scoop bucket add extras # 推荐
-scoop bucket add versions # 收录软件包的历史版本
-scoop bucket add nightlies
-scoop bucket add nirsoft
-scoop bucket add php
-scoop bucket add nerd-fonts # 编程字体
-scoop bucket add nonportable
-scoop bucket add java
-scoop bucket add games
-scoop bucket add jetbrains # 推荐</code></pre>
-<p>也可以添加第三方的，语法格式为：<code>scoop bucket add [仓库名] [仓库地址]</code></p>
-<p>例如添加一个包括一些国内常用应用（微信、QQ、网易云音乐）的第三方库：<br><code>scoop bucket add dorado https://github.com/chawyehsu/dorado</code></p>
-<p>移除仓库：<code>scoop rm php</code></p>
-<h3 id="Scoop命令不完全指北"><a href="#Scoop命令不完全指北" class="headerlink" title="Scoop命令不完全指北"></a>Scoop命令不完全指北</h3><p><code>scoop help</code> 获取命令帮助列表<br><code>scoop install 软件名</code> 安装<br><code>scoop install 软件名@3.7.6</code> 安装指定版本<br><code>scoop install extras/sumatrapdf</code> 安装指定仓库内版本<br><code>scoop update 软件名</code> 更新<br><code>scoop update *</code> 更新Scoop、所有安装的软件<br><code>scoop cleanup *</code> 清理历史版本软件包与缓存<br><code>scoop uninstall 软件名</code> 卸载<br><code>scoop reset 软件名</code> 版本切换<br><code>scoop depends 软件名</code> 查看软件的依赖<br><code>scoop hold 软件名</code>  禁止软件更新<br><code>scoop unhold 软件名</code>  启动软件更新<br><code>scoop home 软件名</code>  打开软件主页<br><code>scoop info 软件名</code>  显示软件信息<br><code>scoop list</code>   列出所有已安装软件<br><code>scoop prefix 软件名</code>  查看软件路径<br><code>scoop reset 软件名</code>  恢复软件版本<br><code>scoop search 软件名</code>  搜索软件<br><code>scoop status 软件名</code>  查看软件更新状态</p>
-<h3 id="gsudo安装"><a href="#gsudo安装" class="headerlink" title="gsudo安装"></a>gsudo安装</h3><p>gsudo解决了管理员权限问题，不需要再单独打开管理员权限的Powershell窗口。<br>安装：<code>scoop install gsudo</code><br>使用：在需要使用的命令前添加 <code>gsudo</code> 即可。（或者只输入命令<code>gsudo</code>，则直接进入管理员模式）</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>Windows Terminal下载：</p>
-<ul>
-<li>方式一：<a href="">Windows Terminal下载</a> </li>
-<li>方式二：直接在 Microsoft Store 搜索下载</li>
-<li>方式三：使用 Scoop 安装（通过 <a href="https://github.com/h404bi">@h404bi</a> 维护的第三方 bucket）<pre><code class="hljs shell">scoop bucket add dorado https://github.com/h404bi/dorado
-scoop install windowsterminal</code></pre>
-<br>
-
-</li>
-</ul>
-<p><a href="https://github.com/PowerShell/PowerShell/releases">PowerShell 7下载</a></p>
-<h2 id="WT配置自定义"><a href="#WT配置自定义" class="headerlink" title="WT配置自定义"></a>WT配置自定义</h2><p>打开配置文件：</p>
-<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819141247.png" width=60%></div>
-
-<h3 id="自定义全局属性"><a href="#自定义全局属性" class="headerlink" title="自定义全局属性"></a>自定义全局属性</h3><p>位于配置文件最开始的位置，可修改的全部属性参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/global-settings">全局设置</a><br>我修改的配置：</p>
-<ul>
-<li>Terminal 亮暗主题：<code>&quot;theme&quot;: &quot;dark&quot;</code></li>
-</ul>
-<h3 id="自定义环境入口-添加新Shell"><a href="#自定义环境入口-添加新Shell" class="headerlink" title="自定义环境入口(添加新Shell)"></a>自定义环境入口(添加新Shell)</h3><p>Windows Terminal 下拉菜单中可选择的环境是能自由配置的，其中每个环境有可以单独设置字体，初始目录，配色方案，背景等等。</p>
-<p>环境的配置位于<code>profiles[]</code>中：</p>
-<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819144453.png" width=100%></div>
-
-<p>一个典型的环境配置包括（以我配置的PowerShell7为例）：</p>
-<pre><code class="hljs json">&#123;
-    <span class="hljs-comment">// 下拉菜单中显示的名字</span>
-    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;PowerShell7&quot;</span>,
-
-    <span class="hljs-comment">// 下拉菜单中显示的icon</span>
-    <span class="hljs-comment">// 路径的语法格式可以用： </span>
-    <span class="hljs-comment">//      1. ms-appdata:///roaming/&#123;图片路径&#125;</span>
-    <span class="hljs-comment">//      2. 直接填图片路径 </span>
-    <span class="hljs-attr">&quot;icon&quot;</span>: <span class="hljs-string">&quot;ms-appdata:///roaming/E:\\保存图片\\icon\\cloudshell.png&quot;</span>, 
-
-    <span class="hljs-comment">// 标识符，直接在PowerShell中输入命令 new-guid 就可以得到一个新的GUID</span>
-    <span class="hljs-comment">// 如果guid设置为和全局属性的&quot;defaultProfile&quot;一样的话，打开 WT 就会默认为这个环</span>
-    <span class="hljs-attr">&quot;guid&quot;</span>: <span class="hljs-string">&quot;&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;&quot;</span>, 
-    
-    <span class="hljs-comment">// 唤起环境时执行这一命令，我这里加了个参数不输出启动日志信息</span>
-    <span class="hljs-attr">&quot;commandline&quot;</span>: <span class="hljs-string">&quot;path\\pwsh.exe -nologo&quot;</span>, 
-
-    <span class="hljs-comment">// 唤起环境时所处的起始目录</span>
-    <span class="hljs-attr">&quot;startingDirectory&quot;</span>: <span class="hljs-string">&quot;path\\...&quot;</span>, 
-
-    <span class="hljs-attr">&quot;cursorColor&quot;</span>: <span class="hljs-string">&quot;#fa9395&quot;</span>, <span class="hljs-comment">// 光标的颜色</span>
-    <span class="hljs-attr">&quot;cursorShape&quot;</span>: <span class="hljs-string">&quot;vintage&quot;</span>, <span class="hljs-comment">// 光标的形状。包括：bar、empytBox、filledBox、vintage</span>
-    <span class="hljs-attr">&quot;colorScheme&quot;</span>: <span class="hljs-string">&quot;Chalkboard&quot;</span>, <span class="hljs-comment">// 配色方案，除了几个默认的还可以在下面的&quot;schemes&quot;: []中定义</span>
-    <span class="hljs-attr">&quot;background&quot;</span>: <span class="hljs-string">&quot;#2a2a2a&quot;</span>, <span class="hljs-comment">// 背景色</span>
-    <span class="hljs-attr">&quot;useAcrylic&quot;</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否开启毛玻璃特效</span>
-    <span class="hljs-attr">&quot;acrylicOpacity&quot;</span>: <span class="hljs-number">0.3</span>, <span class="hljs-comment">// 毛玻璃特效的不透明度</span>
-    <span class="hljs-attr">&quot;backgroundImage&quot;</span>: <span class="hljs-string">&quot;path\\IMG_111.jpg&quot;</span>, <span class="hljs-comment">// 背景图片</span>
-    <span class="hljs-attr">&quot;backgroundImageOpacity&quot;</span>: <span class="hljs-number">0.5</span> <span class="hljs-comment">// 背景图片的不透明度</span>
-&#125;</code></pre>
-<p>更多详细配置参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/profile-settings">配置文件设置</a></p>
-<h3 id="添加自定义配色方案"><a href="#添加自定义配色方案" class="headerlink" title="添加自定义配色方案"></a>添加自定义配色方案</h3><p>一个可以预览Windows Terminal主题并一键复制json文件的网站：<a href="https://atomcorp.github.io/themes/">Windows Terminal Themes</a></p>
-<div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819150228.png" width=100%></div>
-
-
-<p>点击下面的<code>Get theme</code>即将json文件复制到剪切板。e.g.</p>
-<pre><code class="hljs json">&#123;
-  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Andromeda&quot;</span>,
-  <span class="hljs-attr">&quot;black&quot;</span>: <span class="hljs-string">&quot;#000000&quot;</span>,
-  <span class="hljs-attr">&quot;red&quot;</span>: <span class="hljs-string">&quot;#cd3131&quot;</span>,
-  <span class="hljs-attr">&quot;green&quot;</span>: <span class="hljs-string">&quot;#05bc79&quot;</span>,
-  <span class="hljs-attr">&quot;yellow&quot;</span>: <span class="hljs-string">&quot;#e5e512&quot;</span>,
-  <span class="hljs-attr">&quot;blue&quot;</span>: <span class="hljs-string">&quot;#2472c8&quot;</span>,
-  <span class="hljs-attr">&quot;purple&quot;</span>: <span class="hljs-string">&quot;#bc3fbc&quot;</span>,
-  <span class="hljs-attr">&quot;cyan&quot;</span>: <span class="hljs-string">&quot;#0fa8cd&quot;</span>,
-  <span class="hljs-attr">&quot;white&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>,
-  <span class="hljs-attr">&quot;brightBlack&quot;</span>: <span class="hljs-string">&quot;#666666&quot;</span>,  <span class="hljs-comment">//命令行参数</span>
-  <span class="hljs-attr">&quot;brightRed&quot;</span>: <span class="hljs-string">&quot;#cd3131&quot;</span>,  <span class="hljs-comment">//错误信息</span>
-  <span class="hljs-attr">&quot;brightGreen&quot;</span>: <span class="hljs-string">&quot;#05bc79&quot;</span>,
-  <span class="hljs-attr">&quot;brightYellow&quot;</span>: <span class="hljs-string">&quot;#e5e512&quot;</span>,  <span class="hljs-comment">//命令</span>
-  <span class="hljs-attr">&quot;brightBlue&quot;</span>: <span class="hljs-string">&quot;#2472c8&quot;</span>,
-  <span class="hljs-attr">&quot;brightPurple&quot;</span>: <span class="hljs-string">&quot;#bc3fbc&quot;</span>,
-  <span class="hljs-attr">&quot;brightCyan&quot;</span>: <span class="hljs-string">&quot;#0fa8cd&quot;</span>,
-  <span class="hljs-attr">&quot;brightWhite&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>,
-  <span class="hljs-attr">&quot;background&quot;</span>: <span class="hljs-string">&quot;#262a33&quot;</span>,
-  <span class="hljs-attr">&quot;foreground&quot;</span>: <span class="hljs-string">&quot;#e5e5e5&quot;</span>
-&#125;</code></pre>
-<p>我标识了几个颜色代表的参数，都不喜欢也可以自己DIY。</p>
-<h3 id="自定义快捷键"><a href="#自定义快捷键" class="headerlink" title="自定义快捷键"></a>自定义快捷键</h3><p>在<code>&quot;keybindings&quot;: []</code>进行设置。默认的包括：</p>
-<ul>
-<li><code>Ctrl</code> + <code>Shift</code> + <code>F</code>：全局查找</li>
-<li><code>Ctrl</code> + <code>Shift</code> + <code>T</code>：打开新标签页</li>
-<li><code>Ctrl</code> + <code>Shift</code> + <code>1/2/3...</code>：进入配置文件中定义的第一/二/三/…个环境</li>
-<li><code>Ctrl</code> + <code>Tab</code>：前一个标签页</li>
-<li><code>Ctrl</code> + <code>Shift</code> + <code>Tab</code>：后一个标签页</li>
-<li><code>Alt</code> + <code>Shift</code> + <code>-</code>：横向分屏</li>
-<li><code>Alt</code> + <code>Shift</code> + <code>+</code>：纵向分屏</li>
-<li><code>Ctrl</code> + <code>+</code>：放大</li>
-<li><code>Ctrl</code> + <code>-</code>：缩小</li>
-<li><code>Ctrl</code> + <code>0</code>：恢复默认缩放比例</li>
-</ul>
-<p>更多详细配置参考：<a href="https://docs.microsoft.com/zh-cn/windows/terminal/customize-settings/key-bindings">自定义键绑定</a></p>
-<h1 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h1><h2 id="oh-my-posh安装和配置"><a href="#oh-my-posh安装和配置" class="headerlink" title="oh-my-posh安装和配置"></a>oh-my-posh安装和配置</h2><p>打开管理员权限的Powershell窗口（安装了gsudo的可以在命令前面直接加上<code>gsudo</code>）：</p>
-<pre><code class="hljs shell">Install-Module posh-git # 如果你的电脑里没有安装Git，输入这行会报错，解决方法是安装Git或者把这一行去掉。
-Install-Module oh-my-posh
-Set-Theme Agnoster # 这个是设置主题，你也可以选其他的，通过命令Get-Theme命令来查看其他主题</code></pre>
-<p>上面的导入只对当前窗口有效，所以需要将其添加到配置文件中：</p>
-<pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-keyword">if</span> (!(Test-Path -Path <span class="hljs-variable">$PROFILE</span> )) &#123; New-Item -Type File -Path <span class="hljs-variable">$PROFILE</span> -Force &#125; notepad <span class="hljs-variable">$PROFILE</span></span>
-<span class="hljs-meta">#</span><span class="bash"> 该命令打开默认 PowerShell 的启动配置文件（如果没有就创建），notepad表示用记事本打开，如果你安装了vscode，也可以替换成 code</span>
-<span class="hljs-meta">#</span><span class="bash"> 已经存在启动配置文件的话可以直接用命令 notepad/code <span class="hljs-variable">$PROFILE</span> 打开</span></code></pre>
-<p>然后把前面三行内容复制到 Microsoft.PowerShell_profile.ps1 文件中。<br>重新打开窗口或者输入命令<code>.$Profile</code>让配置文件生效。</p>
-<blockquote>
-<p>oh-my-posh只支持部分字体，可以使用我目前用的这款：<a href="https://github.com/tonsky/FiraCode/releases">Fira Code</a></p>
-</blockquote>
-<h3 id="隐藏主机名"><a href="#隐藏主机名" class="headerlink" title="隐藏主机名"></a>隐藏主机名</h3><blockquote>
-<p>个人觉得命令行前面显示的一长串太难看了。</p>
-</blockquote>
-<ol>
-<li><p>找到oh-my-posh的主题文件夹。</p>
-<ul>
-<li>如果你安装有everything可以直接搜索Agnoster或者任意主题名字试试。</li>
-<li>没有的话应该在这个路径下：<code>C:\Users\你的用户名\Documents\PowerShell\Modules\oh-my-posh\2.0.465\Themes</code></li>
-</ul>
-</li>
-<li><p>打开对应主题的.psm1文件，比如我使用的 Agnoster.psm1，搜索 <code>$user@$computer</code> 定位到如下内容，直接将整个 if语句 注释掉。</p>
- <div align=center><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20200819195157.png" width=100%></div>
-
-</li>
-</ol>
-<h2 id="PSReadLine安装和配置"><a href="#PSReadLine安装和配置" class="headerlink" title="PSReadLine安装和配置"></a>PSReadLine安装和配置</h2><blockquote>
-<p>PSReadLine 是一个由微软发布的用于 PowerShell 的行读取实现，提供了以下功能：</p>
-<ul>
-<li>语法着色</li>
-<li>简单语法错误通知</li>
-<li>良好的多行体验</li>
-<li>可自定义的键绑定</li>
-<li>Cmd和Emacs模式</li>
-<li>许多配置选项</li>
-<li>Bash 样式的补全</li>
-<li>Bash/zsh 样式的交互式历史记录搜索</li>
-<li>Emacs yank/kill ring</li>
-<li>基于 PowerShell Token 的单词移动和删除</li>
-<li>撤销/重做</li>
-<li>自动保存历史记录，包括在实时会话中共享历史记录</li>
-<li>菜单补全、Intellisense</li>
-</ul>
-</blockquote>
-<p><strong>安装</strong>：<code>$ Install-Module -Name PSReadLine -AllowPrerelease -Force</code><br><strong>打开配置文件</strong>：<code>code $PROFILE</code><br>在里面添加以下内容：</p>
-<pre><code class="hljs sql"><span class="hljs-keyword">Set</span>-PSReadLineOption -PredictionSource History <span class="hljs-comment"># 设置预测文本来源为历史记录</span>
- 
-<span class="hljs-keyword">Set</span>-PSReadlineKeyHandler -<span class="hljs-keyword">Key</span> Tab -<span class="hljs-keyword">Function</span> <span class="hljs-keyword">Complete</span> <span class="hljs-comment"># 设置 Tab 键补全</span>
-<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> <span class="hljs-string">&quot;Ctrl+d&quot;</span> -<span class="hljs-keyword">Function</span> MenuComplete <span class="hljs-comment"># 设置 Ctrl+d 为菜单补全和 Intellisense</span>
-<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> <span class="hljs-string">&quot;Ctrl+z&quot;</span> -<span class="hljs-keyword">Function</span> <span class="hljs-keyword">Undo</span> <span class="hljs-comment"># 设置 Ctrl+z 为撤销</span>
-<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> UpArrow -<span class="hljs-keyword">Function</span> HistorySearchBackward <span class="hljs-comment"># 设置向上键为后向搜索历史记录</span>
-<span class="hljs-keyword">Set</span>-PSReadLineKeyHandler -<span class="hljs-keyword">Key</span> DownArrow -<span class="hljs-keyword">Function</span> HistorySearchForward <span class="hljs-comment"># 设置向下键为前向搜索历史纪录</span></code></pre>
-<p><a href="https://github.com/PowerShell/PSReadLine">PSReadLine更多配置参考</a></p>
-<h2 id="别名配置"><a href="#别名配置" class="headerlink" title="别名配置"></a>别名配置</h2><p>经常使用Git，所以想设置一些简短点的别名。<br>powershell的别名不支持语句，只能用命令所以这里还是搞了蛮久的。<br>需要用函数来帮忙，举个🌰 ：假如我想设置<code>git commit -m</code> -&gt; <code>cm</code>。因为后面肯定是有个字符串参数的，所以在配置文件里要这么写：</p>
-<pre><code class="hljs ps1"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCommit</span><span class="hljs-params">()</span></span> &#123;
-      git commit <span class="hljs-literal">-m</span> <span class="hljs-variable">$args</span>
-&#125;
-<span class="hljs-built_in">Set-Alias</span> cm getCommit</code></pre>
-<p>另外这个函数名<code>getCommit</code>是不能随便起的，有一定的规范，按我这种写应该是没问题的。<br>如果是不带参数的命令，就可以去掉<code>$args</code>。<br><a href="https://www.pstips.net/powershell-alias.html">Powershell 别名详细参考</a></p>
-<br>
-<br>
-
-<hr>
-<p>参考网址：<br><a href="https://sspai.com/post/59380">https://sspai.com/post/59380</a><br><a href="https://docs.microsoft.com/zh-cn/windows/terminal/">https://docs.microsoft.com/zh-cn/windows/terminal/</a><br><a href="https://segmentfault.com/a/1190000023337501">https://segmentfault.com/a/1190000023337501</a><br><a href="https://zhuanlan.zhihu.com/p/137251716">https://zhuanlan.zhihu.com/p/137251716</a><br><a href="https://printempw.github.io/windows-terminal-setup-guide/#3-2-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE">https://printempw.github.io/windows-terminal-setup-guide/#3-2-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE</a></p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>记录</tag>
-        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
@@ -558,9 +558,8 @@ Set-Theme Agnoster # 这个是设置主题，你也可以选其他的，通过�
 </li>
 <li><p><a href="https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/">LeetCode-787. K 站中转内最便宜的航班</a></p>
 <ul>
-<li>思路：使用优先队列+Dijsktra 算法。记录到达每个结点(城市)处的中转次数和花费，优先操作花费最少的结点。</li>
-</ul>
-<pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">City</span> &#123;</span>
+<li><p>思路：使用优先队列+Dijsktra 算法。记录到达每个结点(城市)处的中转次数和花费，优先操作花费最少的结点。</p>
+   <pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">City</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
     <span class="hljs-keyword">int</span> index; <span class="hljs-comment">// 城市编号</span>
     <span class="hljs-keyword">int</span> cost;  <span class="hljs-comment">// 花费</span>
@@ -606,6 +605,8 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 &#125;;
 </code></pre>
 <h4 id="Dijsktra-算法-DFS"><a href="#Dijsktra-算法-DFS" class="headerlink" title="Dijsktra 算法+DFS"></a>Dijsktra 算法+DFS</h4></li>
+</ul>
+</li>
 </ol>
 <p>上面两道题都没有要求输出具体的最短路径，所以没有使用 pre 数组。有两种稍微复杂的情况如下：</p>
 <ol>
