@@ -236,7 +236,7 @@
 
 <h1 id="最短路径算法总结和-LeetCode-题目实践"><a href="#最短路径算法总结和-LeetCode-题目实践" class="headerlink" title="最短路径算法总结和 LeetCode 题目实践"></a>最短路径算法总结和 LeetCode 题目实践</h1><p>最近复习到了图相关，总结了最短路径问题的几个常用算法（Dijsktra 算法、Floyd 算法、Bellman-Ford 算法、SPFA 算法）。给出了具体题目实现。</p>
 <p>给定图 G(V,E)，共有 n 个顶点：</p>
-<h3 id="Dijsktra-算法"><a href="#Dijsktra-算法" class="headerlink" title="Dijsktra 算法"></a>Dijsktra 算法</h3><p>通常用于计算单源最短路径问题，即给定源点<code>src</code>，计算其他每个顶点到源点的最短距离。（注意：Dijsktra 不能解决边权有负值的情况）</p>
+<h2 id="Dijsktra-算法"><a href="#Dijsktra-算法" class="headerlink" title="Dijsktra 算法"></a>Dijsktra 算法</h2><p>通常用于计算单源最短路径问题，即给定源点<code>src</code>，计算其他每个顶点到源点的最短距离。（注意：Dijsktra 不能解决边权有负值的情况）</p>
 <p><strong>基本思想</strong>：设置一个顶点集合 S，存放已找到最短路径的顶点，每次从 V-S 集合中找距离源点距离最小的点，假设为<code>u</code>，将其加入集合 S。再次遍历 V-S 集合中的点，设为<code>v</code>，看是否能对边<code>(u,v)</code>进行松弛操作(<code>dist[u]+G[u][v]&lt;dist[v]</code>)。</p>
 <p><strong>伪代码</strong>：</p>
 <pre><code class="hljs c++"><span class="hljs-comment">// 设置的数据结构：</span>
@@ -341,7 +341,7 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
     &#125;
 &#125;;
 </code></pre>
-<h4 id="Dijsktra-算法-DFS"><a href="#Dijsktra-算法-DFS" class="headerlink" title="Dijsktra 算法+DFS"></a>Dijsktra 算法+DFS</h4></li>
+<h3 id="Dijsktra-算法-DFS"><a href="#Dijsktra-算法-DFS" class="headerlink" title="Dijsktra 算法+DFS"></a>Dijsktra 算法+DFS</h3></li>
 </ul>
 </li>
 </ol>
@@ -428,9 +428,11 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
     dfs(pre, w, dst, src);
     <span class="hljs-built_in">cout</span> &lt;&lt; ansNum &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; maxSum;
 &#125;</code></pre>
-<h3 id="Floyd-算法"><a href="#Floyd-算法" class="headerlink" title="Floyd 算法"></a>Floyd 算法</h3></li>
+
+
+</li>
 </ul>
-<p>Floyd 算法可以用来解决多源最短路径问题，它会计算图中每两个点之间的最短路径。</p>
+<h2 id="Floyd-算法"><a href="#Floyd-算法" class="headerlink" title="Floyd 算法"></a>Floyd 算法</h2><p>Floyd 算法可以用来解决多源最短路径问题，它会计算图中每两个点之间的最短路径。</p>
 <p><strong>基本思想</strong>：如果令 k 作为顶点 i 和 j 之间路径的中介点能够得到一条更短的路径，则令 k 作为其最短路径的中介点。</p>
 <p><strong>伪代码</strong>：(由伪代码可知 Floyd 算法的复杂度为$O(n^3)$，所以通常用于图点数不太大的情况)</p>
 <pre><code class="hljs c++"><span class="hljs-comment">// dist[i][j]表示顶点i和j之间的最短距离</span>
@@ -487,9 +489,11 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 
     &#125;
 &#125;;</code></pre>
-<h3 id="Bellman-Ford-算法"><a href="#Bellman-Ford-算法" class="headerlink" title="Bellman-Ford 算法"></a>Bellman-Ford 算法</h3></li>
+
+
+</li>
 </ul>
-<p>Bellman-Ford 算法也是解决单源最短路径，其还可以处理有负边权的图。</p>
+<h2 id="Bellman-Ford-算法"><a href="#Bellman-Ford-算法" class="headerlink" title="Bellman-Ford 算法"></a>Bellman-Ford 算法</h2><p>Bellman-Ford 算法也是解决单源最短路径，其还可以处理有负边权的图。</p>
 <p>首先要明确一点，在带有负边权的图中，不能有源点可达的负环，否则当从源点出发，将该负环循环走无数次，路径值会越来越小，也就不存在最短路径。所以当图中存在从源点可达的负环时，函数要返回 false。</p>
 <p><strong>思路</strong>：将图 G 中的所有边，遍历 n-1 次。对于边<code>(u,v,w)</code>，若<code>dist[u]+w&lt;dist[v]</code>，则更新<code>dist[v]</code>。</p>
 <ul>
@@ -562,7 +566,10 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
         <span class="hljs-keyword">return</span> prob[<span class="hljs-built_in">end</span>];
     &#125;
 &#125;;</code></pre>
-<h3 id="SPFA-算法"><a href="#SPFA-算法" class="headerlink" title="SPFA 算法"></a>SPFA 算法</h3><p>SPFA 算法是基于 Bellman-Ford 算法改进得到的。B-F 算法每次边遍历，要对所有边都进行一次操作，但其实哪些边需要进行操作是可以提前确定的：只有当某个顶点 u 的 dist[u]值改变时，从他出发的边(u,v)才需要进行操作，因为只有此时顶点 v 的值才可能改变。</p>
+
+
+
+<h2 id="SPFA-算法"><a href="#SPFA-算法" class="headerlink" title="SPFA 算法"></a>SPFA 算法</h2><p>SPFA 算法是基于 Bellman-Ford 算法改进得到的。B-F 算法每次边遍历，要对所有边都进行一次操作，但其实哪些边需要进行操作是可以提前确定的：只有当某个顶点 u 的 dist[u]值改变时，从他出发的边(u,v)才需要进行操作，因为只有此时顶点 v 的值才可能改变。</p>
 <p>基本操作：使用队列来存储 dist 值改变的点。每次取队首的顶点，然后对该顶点的所有边进行操作，如果边的另一个顶点的 dist 值改变，则将该顶点加入到队列中（如果该顶点当前不在队列中）。这样一直到队列为空。</p>
 <ul>
 <li>如果图中存在从源点可达的负环，则可能存在顶点无限次入队，使得队列不可能为空，这时用一个数组来记录每个顶点的入队次数，当一个顶点入队次数超过 n-1 时，返回 false。</li>
