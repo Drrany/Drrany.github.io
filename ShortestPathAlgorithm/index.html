@@ -226,7 +226,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年1月29日 下午
+                  本文最后更新于：2021年2月10日 上午
                 
               </p>
             
@@ -438,7 +438,7 @@ City(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</sp
 </ul>
 <h2 id="Floyd-算法"><a href="#Floyd-算法" class="headerlink" title="Floyd 算法"></a>Floyd 算法</h2><p>Floyd 算法可以用来解决多源最短路径问题，它会计算图中每两个点之间的最短路径。</p>
 <p><strong>基本思想</strong>：如果令 k 作为顶点 i 和 j 之间路径的中介点能够得到一条更短的路径，则令 k 作为其最短路径的中介点。</p>
-<p><strong>伪代码</strong>：(由伪代码可知 Floyd 算法的复杂度为$O(n^3)$，所以通常用于图点数不太大的情况)</p>
+<p><strong>伪代码</strong>：(由伪代码可知 Floyd 算法的复杂度为 $O(n^3)$ ，所以通常用于图点数不太大的情况)</p>
 <pre><code class="hljs c++"><span class="hljs-comment">// dist[i][j]表示顶点i和j之间的最短距离</span>
 
 <span class="hljs-function"><span class="hljs-keyword">for</span> k <span class="hljs-title">in</span> <span class="hljs-params">(<span class="hljs-number">1</span>,n)</span>:	<span class="hljs-comment">// 令每个点分别作为中介点进行测试</span></span>
