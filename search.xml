@@ -1039,6 +1039,7 @@ q.push(src);	<span class="hljs-comment">// 源点入队</span>
         toMaxHeap(tree, i);
     &#125;</code></pre>
 <h2 id="4-求最短路径"><a href="#4-求最短路径" class="headerlink" title="4. 求最短路径"></a>4. 求最短路径</h2><p>从0点出发经过每个点，下个点是距离当前最近的点。<br>所以我选择了Floyd，先求出每两个点之间的最短距离，直接迭代n次，每次找出还没到过的点中最近的那个，如果找不到了就跳出循环，说明之后的点都无法到达了。<br>其他也没什么好说的，这道题也是一次AC。</p>
+<h2 id="个人准备"><a href="#个人准备" class="headerlink" title="个人准备"></a>个人准备</h2><p>TODO</p>
 <p>具体代码等成绩核验完再贴~</p>
 ]]></content>
       <categories>
