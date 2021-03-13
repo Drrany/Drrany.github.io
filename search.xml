@@ -1044,7 +1044,7 @@ q.push(src);	<span class="hljs-comment">// 源点入队</span>
 <h3 id="4-回收共享单车"><a href="#4-回收共享单车" class="headerlink" title="4. 回收共享单车"></a>4. 回收共享单车</h3><p>基本上是个多源最短路径问题。要求从0点出发经过每个点，下个点是距离当前最近的点，得到这个序列，并且判断出哪些点不可达。<br>所以我选择了Floyd，先求出每两个点之间的最短距离，直接迭代n次，每次找出还没到过的点中最近的那个，如果找不到了就跳出循环，说明之后的点都无法到达了。<br>其他也没什么好说的，这道题也是一次AC。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次PAT的题目还是比较良心的，虽然自己的过程十分不顺利，好在最后的结果还不错，只能说一分耕耘一分收获，满打满算快两个月每天都有两个小时在PAT上，之后可能不会再碰了，圆满结束~<br>贴一下截图~<br><img src="https://gitee.com/Drrany/picbed/raw/master/images_blog/20210313-185600-0538.png"></p>
 <hr>
-<p>具体代码等成绩核验完再贴~</p>
+<p>具体代码忘了保存等能查的时候再贴~</p>
 ]]></content>
       <categories>
         <category>记录</category>
