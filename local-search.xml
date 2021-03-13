@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>2020.3月PAT经历(甲级满分)</title>
+    <link href="/PAT/"/>
+    <url>/PAT/</url>
+    
+    <content type="html"><![CDATA[<p>大概提前了快两个小时交卷，这次题不算很简单但也不坑，基本上认真看懂题都能AC。<br>趁着还记得来记录下这次波折的线上PAT经历……。</p><p>这次1:30开考，我12:40开始折腾设备。双机位考试，拍照和视频倒是被监考老师通过了，但是手机那边一直显示连接失败，我一开始不知道什么问题，再加上两边显示正常，就没有管。一直按着“呼叫监考老师”想问问老师怎么办，无奈可能是人太多了，根本没有老师管你……最后开考前20分钟，老师说我手机摄像头是黑的，我又四处问人，发现可能是手机权限问题(?)，但是当时还剩10分钟左右了，不管怎么搞都还是没办法连通。<br>幸好父上大人在家，飞速争用了他的手机，重新登录我的微信，各种重新验证，最后两分钟了我还在填准考证号和拍验证视频……。<br>而且这次最难AC的还是第一道题，我第一道题做了块40分钟还没AC，有两个测试点不过，就先跳过了。<br>经过这个开头我的心情一直是很down的，最后能AK还是多亏了自己的心理素质，一直在给自己打气。考试的时候你的能力决定你的上限，但是心理素质决定你的下限。<br>下面依次来说一下每道题吧~因为现在题目还没出，可能描述有些出入（老失忆大师了）</p><h2 id="1-等差质数"><a href="#1-等差质数" class="headerlink" title="1. 等差质数"></a>1. 等差质数</h2><p>题目大意是给一个数n和范围range，让你找n个质数组成的等差数列(都不大于range)，如果不唯一就找差最大的，还不唯一就找第一个数字最大的。找不到就输出不大于range的最大素数。<br>我的方法比较暴力，先得到$10^5$以内的素数表。然后遍历素数表，先确定前两个素数，这样就得到了他们的差，再找剩下n-2个素数，这就比较简单了，每次用前一个素数加上差，看得到的下一个数是不是素数就行了。<br>得到一个新答案就比较一下，最后输出。<br>这里我n=1特判了一下。以及第一次有两个点没AC是因为我用的&lt;range，改成&lt;=range就过了……。</p><h2 id="2-时间安排"><a href="#2-时间安排" class="headerlink" title="2. 时间安排"></a>2. 时间安排</h2><p>这个感觉不用多说了……经典贪心问题，学过就会，没学过就抓瞎。<br>先按结束时间从小到大排序，然后依次遍历每条记录，如果当前记录的进入时间大于上一个人的结束时间，那这个人就可以进入，然后更新结束时间。</p><h2 id="3-大顶堆"><a href="#3-大顶堆" class="headerlink" title="3. 大顶堆"></a>3. 大顶堆</h2><p>体感是这次最难的一道题，幸好考前重新做了一遍堆排序题。<br>这题的主要难点是通过插入的值得到正确的树，只要构造出了正确的树，后面的父母孩子啥的都很好判断，直接用完全二叉树的特性第i个结点的孩子是第2i和第2i+1就行了。<br>我一开始是得到了所有的值，然后再直接调整，但是这样得到的树和样例不一样，最后发现得插入一次调整一次……这代码还没删，贴一下：</p><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">adjust</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp;arr, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> n)</span> </span>&#123;     <span class="hljs-keyword">int</span> index = <span class="hljs-number">2</span> * i;    <span class="hljs-keyword">if</span> (index &gt; n) <span class="hljs-keyword">return</span>;    <span class="hljs-keyword">if</span> (index + <span class="hljs-number">1</span> &lt;= n &amp;&amp; (arr[index + <span class="hljs-number">1</span>] &gt; arr[index])) index++;    <span class="hljs-keyword">if</span> (arr[index] &gt; arr[i]) &#123;        swap(arr[i], arr[index]);        adjust(arr, index, n);    &#125;&#125;<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">toMaxHeap</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp;tree, <span class="hljs-keyword">int</span> n)</span> </span>&#123;    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = n / <span class="hljs-number">2</span>; i &gt;= <span class="hljs-number">1</span>; --i) &#123; <span class="hljs-comment">// 自下向上构造一个大顶堆</span>        adjust(tree, i, n);     &#125;&#125;<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-keyword">int</span> n, m;    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; tree;    <span class="hljs-keyword">int</span> num;    tree.push_back(INT32_MAX);    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; ++i) &#123;        <span class="hljs-built_in">cin</span> &gt;&gt; num;        tree.push_back(num);        <span class="hljs-comment">// 调整tree[1..i]为大顶堆</span>        toMaxHeap(tree, i);    &#125;</code></pre><h2 id="4-求最短路径"><a href="#4-求最短路径" class="headerlink" title="4. 求最短路径"></a>4. 求最短路径</h2><p>从0点出发经过每个点，下个点是距离当前最近的点。<br>所以我选择了Floyd，先求出每两个点之间的最短距离，直接迭代n次，每次找出还没到过的点中最近的那个，如果找不到了就跳出循环，说明之后的点都无法到达了。<br>其他也没什么好说的，这道题也是一次AC。</p><p>具体代码等成绩核验完再贴~</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>生活</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>最短路径算法总结和LeetCode题目实践</title>
     <link href="/ShortestPathAlgorithm/"/>
     <url>/ShortestPathAlgorithm/</url>
